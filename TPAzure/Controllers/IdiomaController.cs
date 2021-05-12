@@ -13,19 +13,22 @@ namespace TPAzure.Controllers
     public class IdiomaController : Controller
     {
         private readonly IIdiomaAppService _idiomaAppService;
+        private readonly IPaisAppService _paisAppService;
 
-        public IdiomaController(IIdiomaAppService idiomaAppService)
+        public IdiomaController(IIdiomaAppService idiomaAppService, IPaisAppService paisAppService)
         {
             _idiomaAppService = idiomaAppService;
+            _paisAppService = paisAppService;
         }
 
-        // GET: Pais
+     
         public async Task<IActionResult> Index()
         {
+            await PopulateSelectedPaises();
             return View(await _idiomaAppService.GetAllAsync(null));
         }
 
-        // GET: Pais/Details/5
+     
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,38 +36,42 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var paisViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
+            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
 
-            if (paisViewModel == null)
+            if (idiomaViewModel == null)
             {
                 return NotFound();
             }
-
-            return View(paisViewModel);
+            var pais = await _paisAppService.GetByIdAsync(idiomaViewModel.PaisId);
+            if(pais.Id == idiomaViewModel.PaisId)
+            {
+                idiomaViewModel.Pais = pais;
+            }
+            
+            return View(idiomaViewModel);
         }
 
-        // GET: Pais/Create
-        public IActionResult Create()
+  
+        public async Task<IActionResult> Create()
         {
+            await PopulateSelectedPaises();
             return View();
         }
 
-        // POST: Pais/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataIndependencia,QtdHabitantes,ImageUri")] IdiomaViewModel idiomaViewModel)
+        public async Task<IActionResult> Create(IdiomaViewModel idiomaViewModel)
         {
             if (ModelState.IsValid)
             {
                 await _idiomaAppService.AddAsync(idiomaViewModel);
                 return RedirectToAction(nameof(Index));
             }
+            await PopulateSelectedPaises(idiomaViewModel.PaisId);
             return View(idiomaViewModel);
         }
 
-        // GET: Pais/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -72,20 +79,23 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var paisViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
-            if (paisViewModel == null)
+            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
+            
+            if (idiomaViewModel == null)
             {
                 return NotFound();
             }
-            return View(paisViewModel);
+
+            await PopulateSelectedPaises();
+            return View(idiomaViewModel);
         }
 
-        // POST: Pais/Edit/5
+ 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataIndependencia,QtdHabitantes,ImageUri")] IdiomaViewModel idiomaViewModel)
+        public async Task<IActionResult> Edit(int id, IdiomaViewModel idiomaViewModel)
         {
             if (id != idiomaViewModel.Id)
             {
@@ -101,7 +111,7 @@ namespace TPAzure.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PaisViewModelExists(idiomaViewModel.Id))
+                    if (!IdiomaViewModelExists(idiomaViewModel.Id))
                     {
                         return NotFound();
                     }
@@ -112,10 +122,11 @@ namespace TPAzure.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            await PopulateSelectedPaises(idiomaViewModel.PaisId);
             return View(idiomaViewModel);
         }
 
-        // GET: Pais/Delete/5
+    
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -123,14 +134,19 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var paisViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
+            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
 
-            if (paisViewModel == null)
+            if (idiomaViewModel == null)
             {
                 return NotFound();
             }
+            var pais = await _paisAppService.GetByIdAsync(idiomaViewModel.PaisId);
+            if (pais.Id == idiomaViewModel.PaisId)
+            {
+                idiomaViewModel.Pais = pais;
+            }
 
-            return View(paisViewModel);
+            return View(idiomaViewModel);
         }
 
         // POST: Pais/Delete/5
@@ -138,15 +154,26 @@ namespace TPAzure.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var paisViewModel = await _idiomaAppService.GetByIdAsync(id);
-            await _idiomaAppService.RemoveAsync(paisViewModel);
+            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id);
+            await _idiomaAppService.RemoveAsync(idiomaViewModel);
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PaisViewModelExists(int id)
+        private bool IdiomaViewModelExists(int id)
         {
             return _idiomaAppService.GetByIdAsync(id) != null;
         }
+
+
+        //Métodos auxiliares
+        private async Task PopulateSelectedPaises(int? paisId = null)
+        {
+            var paises = await _paisAppService.GetAllAsync(null);
+            ViewBag.Paises = new SelectList(paises, nameof(PaisViewModel.Id),
+                nameof(PaisViewModel.Nome),
+                paisId); 
+        }
+
     }
 }

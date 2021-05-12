@@ -54,7 +54,7 @@ namespace TPAzure.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nome,DataIndependencia,QtdHabitantes,ImageUri")] PaisViewModel paisViewModel)
+        public async Task<IActionResult> Create(PaisViewModel paisViewModel)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@ namespace TPAzure.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,DataIndependencia,QtdHabitantes,ImageUri")] PaisViewModel paisViewModel)
+        public async Task<IActionResult> Edit(int id,  PaisViewModel paisViewModel)
         {
             if (id != paisViewModel.Id)
             {

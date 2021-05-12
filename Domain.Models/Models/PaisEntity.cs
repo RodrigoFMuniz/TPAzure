@@ -12,10 +12,8 @@ namespace Domain.Model.Models
         public DateTime DataIndependencia { get; set; }
         [DisplayName("Quantidade de Habitantes")]
         public int QtdHabitantes { get; set; }
-
         [DisplayName("Bandeira")]
         public string ImageUri { get; set; }
-
         public List<IdiomaEntity> Idiomas { get; set; }
     }
 }
