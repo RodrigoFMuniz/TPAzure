@@ -49,8 +49,8 @@ namespace Infrastructure.Data.Repositories
 
         public async Task RemoveAsync(IdiomaEntity idiomaEntity)
         {
-            var autorToRemove = await GetByIdAsync(idiomaEntity.Id);
-            _paisIdiomaContext.Idiomas.Remove(autorToRemove);
+            var idiomaToRemove = await GetByIdAsync(idiomaEntity.Id);
+            _paisIdiomaContext.Idiomas.Remove(idiomaToRemove);
             await _paisIdiomaContext.SaveChangesAsync();
         }
     }

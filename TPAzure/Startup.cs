@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data.Context;
+using Infrastructure.Crosscutting.IoC;
 
 namespace TPAzure
 {
@@ -26,9 +27,7 @@ namespace TPAzure
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-
-            services.AddDbContext<PaisIdiomaContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("PaisIdiomaContext")));
+            Bootstrapper.RegisterTpAzureServices(services, Configuration);
 
         }
 
