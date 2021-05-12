@@ -55,7 +55,7 @@ namespace TPAzure
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=PaisEntities}/{action=Index}/{id?}");
             });
         }
     }
