@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Data", "Infr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Crosscutting.IoC", "Infrastructure.Crosscutting.IoC\Infrastructure.Crosscutting.IoC.csproj", "{6C0B9590-35DC-4378-91A8-48E7DD12E34D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain.Model", "Domain.Models\Domain.Model.csproj", "{E2AA0010-8810-449A-AADA-6B4A88AE432E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "Domain.Models\Domain.Model.csproj", "{E2AA0010-8810-449A-AADA-6B4A88AE432E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

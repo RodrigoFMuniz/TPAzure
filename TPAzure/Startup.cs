@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using TPAzure.Data;
+using Infrastructure.Data.Context;
 
 namespace TPAzure
 {
@@ -27,8 +27,9 @@ namespace TPAzure
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<TPAzureContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("TPAzureContext")));
+            services.AddDbContext<PaisIdiomaContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("PaisIdiomaContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,7 +56,7 @@ namespace TPAzure
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=PaisEntities}/{action=Index}/{id?}");
+                    pattern: "{controller=Pais}/{action=Index}/{id?}");
             });
         }
     }
