@@ -6,6 +6,21 @@
 
 <h1>Idiomas</h1>
 
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            <div class="form-group">
+                <label class="control-label">Busca</label>
+                <input id="keySearch" value="@ViewBag.keySearch" name="keySearch" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Busca por idioma" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
 <p>
     <a asp-action="Create">Cadastrar novo idioma</a>
 </p>

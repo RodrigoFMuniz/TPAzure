@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.Data.Context.Configurations;
 
 namespace Infrastructure.Data.Context
 {
@@ -11,6 +12,13 @@ namespace Infrastructure.Data.Context
         public PaisIdiomaContext(DbContextOptions<PaisIdiomaContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new PaisEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new IdiomaEntityConfiguration());
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<PaisEntity> Paises { get; set; }

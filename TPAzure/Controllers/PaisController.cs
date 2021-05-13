@@ -20,9 +20,10 @@ namespace TPAzure.Controllers
         }
 
         // GET: Pais
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string keySearch = null)
         {
-            return View(await _paisAppService.GetAllAsync(null));
+            ViewBag.keySearch = keySearch;
+            return View(await _paisAppService.GetAllAsync(keySearch));
         }
 
         // GET: Pais/Details/5

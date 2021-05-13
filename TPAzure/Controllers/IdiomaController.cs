@@ -20,15 +20,14 @@ namespace TPAzure.Controllers
             _idiomaAppService = idiomaAppService;
             _paisAppService = paisAppService;
         }
-
-     
-        public async Task<IActionResult> Index()
+ 
+        public async Task<IActionResult> Index(string keySearch = null)
         {
+            ViewBag.keySearch = keySearch;
             await PopulateSelectedPaises();
-            return View(await _idiomaAppService.GetAllAsync(null));
+            return View(await _idiomaAppService.GetAllAsync(keySearch));
         }
-
-     
+    
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,7 +50,6 @@ namespace TPAzure.Controllers
             return View(idiomaViewModel);
         }
 
-  
         public async Task<IActionResult> Create()
         {
             await PopulateSelectedPaises();
@@ -71,7 +69,6 @@ namespace TPAzure.Controllers
             return View(idiomaViewModel);
         }
 
-
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,10 +86,7 @@ namespace TPAzure.Controllers
             await PopulateSelectedPaises();
             return View(idiomaViewModel);
         }
-
  
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IdiomaViewModel idiomaViewModel)
@@ -125,7 +119,6 @@ namespace TPAzure.Controllers
             await PopulateSelectedPaises(idiomaViewModel.PaisId);
             return View(idiomaViewModel);
         }
-
     
         public async Task<IActionResult> Delete(int? id)
         {
@@ -149,7 +142,6 @@ namespace TPAzure.Controllers
             return View(idiomaViewModel);
         }
 
-        // POST: Pais/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -165,8 +157,6 @@ namespace TPAzure.Controllers
             return _idiomaAppService.GetByIdAsync(id) != null;
         }
 
-
-        //Métodos auxiliares
         private async Task PopulateSelectedPaises(int? paisId = null)
         {
             var paises = await _paisAppService.GetAllAsync(null);
@@ -174,6 +164,7 @@ namespace TPAzure.Controllers
                 nameof(PaisViewModel.Nome),
                 paisId); 
         }
+
 
     }
 }
