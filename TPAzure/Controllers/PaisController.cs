@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.ViewModels;
 using Application.AppServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TPAzure.Controllers
 {
@@ -50,9 +51,7 @@ namespace TPAzure.Controllers
             return View();
         }
 
-        // POST: Pais/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(PaisViewModel paisViewModel)
@@ -81,9 +80,7 @@ namespace TPAzure.Controllers
             return View(paisViewModel);
         }
 
-        // POST: Pais/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,  PaisViewModel paisViewModel)
@@ -134,7 +131,7 @@ namespace TPAzure.Controllers
             return View(paisViewModel);
         }
 
-        // POST: Pais/Delete/5
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

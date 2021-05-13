@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Application.ViewModels;
 using Application.AppServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TPAzure.Controllers
 {
@@ -56,6 +57,7 @@ namespace TPAzure.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(IdiomaViewModel idiomaViewModel)
@@ -86,7 +88,8 @@ namespace TPAzure.Controllers
             await PopulateSelectedPaises();
             return View(idiomaViewModel);
         }
- 
+
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, IdiomaViewModel idiomaViewModel)
@@ -142,6 +145,7 @@ namespace TPAzure.Controllers
             return View(idiomaViewModel);
         }
 
+        [Authorize]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

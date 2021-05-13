@@ -13,7 +13,6 @@ namespace Application.ViewModels
         [Required(ErrorMessage = "O campo Idioma deve ser preenchido")]
         [DisplayName("Idioma")]
         public string NomeIdioma { get; set; }
-        [Required(ErrorMessage = "O campo País deve ser preenchido")]
         [DisplayName("País")]
         public PaisViewModel Pais { get; set; }
         public int PaisId { get; set; }

@@ -29,6 +29,9 @@ namespace TPAzure
             services.AddControllersWithViews();
             Bootstrapper.RegisterTpAzureServices(services, Configuration);
 
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +40,7 @@ namespace TPAzure
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -49,6 +53,8 @@ namespace TPAzure
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -56,6 +62,7 @@ namespace TPAzure
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Pais}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
         }
     }
