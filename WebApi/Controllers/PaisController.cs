@@ -34,15 +34,19 @@ namespace WebApi.Controllers
             return Ok(_mapper.Map<PaisViewModel>(paisEntity));
         }
         [HttpPost]
-        public async Task<ActionResult<int>> Post(PaisViewModel paisViewModel) 
+        public async Task<ActionResult<int>> Post([FromBody]PaisViewModel paisViewModel) 
         {
             var paisEntity = _mapper.Map<PaisEntity>(paisViewModel);
             var id = await _paisService.AddAsync(paisEntity);
             return Ok(id);
         }
         [HttpPut("{id}")]
-        public async Task<ActionResult<int>> Put(PaisViewModel paisViewModel)
+        public async Task<ActionResult<int>> Put(int id, PaisViewModel paisViewModel)
         {
+            if(id != paisViewModel.Id)
+            {
+                return BadRequest();
+            }
             var paisNaoEncontrado = await _paisService.GetByIdAsync(paisViewModel.Id) is null;
             
             if (paisNaoEncontrado)

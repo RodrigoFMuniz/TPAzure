@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using TPAzure.Areas.Identity;
 using TPAzure.HttpServices;
 using TPAzure.HttpServices.Implementations;
 
@@ -27,8 +28,12 @@ namespace TPAzure
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.AddHttpClient<IPaisHttpService, PaisHttpService>(x => x.BaseAddress = new Uri("https://localhost:44360/api/Pais"));
-            services.AddHttpClient<IIdiomaHttpService, IdiomaHttpService>(x => x.BaseAddress = new Uri("https://localhost:44360/api/Idioma"));
+            services.RegisterHttpClients(Configuration);
+
+            services.RegisterAuth(Configuration);
+
+            //services.AddHttpClient<IPaisHttpService, PaisHttpService>(x => x.BaseAddress = new Uri("https://localhost:44360/api/Pais"));
+            //services.AddHttpClient<IIdiomaHttpService, IdiomaHttpService>(x => x.BaseAddress = new Uri("https://localhost:44360/api/Idioma"));
 
         }
 
