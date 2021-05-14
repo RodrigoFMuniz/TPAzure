@@ -1,12 +1,12 @@
-﻿using Application.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using TPAzure.ViewModels;
 
-namespace Application.AppServices
+namespace TPAzure.HttpServices
 {
-    public interface IPaisAppService
+    public interface IPaisHttpService
     {
         Task<IEnumerable<PaisViewModel>> GetAllAsync(string search);
         Task<PaisViewModel> GetByIdAsync(int id);
@@ -14,4 +14,5 @@ namespace Application.AppServices
         Task EditAsync(PaisViewModel paisViewModel);
         Task RemoveAsync(PaisViewModel paisViewModel);
     }
+
 }

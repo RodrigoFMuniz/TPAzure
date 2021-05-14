@@ -5,28 +5,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Application.ViewModels;
-using Application.AppServices;
 using Microsoft.AspNetCore.Authorization;
+using TPAzure.HttpServices;
+using TPAzure.ViewModels;
 
 namespace TPAzure.Controllers
 {
     public class IdiomaController : Controller
     {
-        private readonly IIdiomaAppService _idiomaAppService;
-        private readonly IPaisAppService _paisAppService;
+        private readonly IIdiomaHttpService _idiomaHttpService;
+        private readonly IPaisHttpService _paisHttpService;
 
-        public IdiomaController(IIdiomaAppService idiomaAppService, IPaisAppService paisAppService)
+        public IdiomaController(IIdiomaHttpService idiomaHttpService, IPaisHttpService paisHttpService)
         {
-            _idiomaAppService = idiomaAppService;
-            _paisAppService = paisAppService;
+            _idiomaHttpService = idiomaHttpService;
+            _paisHttpService = paisHttpService;
         }
  
         public async Task<IActionResult> Index(string keySearch = null)
         {
             ViewBag.keySearch = keySearch;
             await PopulateSelectedPaises();
-            return View(await _idiomaAppService.GetAllAsync(keySearch));
+            return View(await _idiomaHttpService.GetAllAsync(keySearch));
         }
     
         public async Task<IActionResult> Details(int? id)
@@ -36,13 +36,13 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
+            var idiomaViewModel = await _idiomaHttpService.GetByIdAsync(id.Value);
 
             if (idiomaViewModel == null)
             {
                 return NotFound();
             }
-            var pais = await _paisAppService.GetByIdAsync(idiomaViewModel.PaisId);
+            var pais = await _paisHttpService.GetByIdAsync(idiomaViewModel.PaisId);
             if(pais.Id == idiomaViewModel.PaisId)
             {
                 idiomaViewModel.Pais = pais;
@@ -64,7 +64,7 @@ namespace TPAzure.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _idiomaAppService.AddAsync(idiomaViewModel);
+                await _idiomaHttpService.AddAsync(idiomaViewModel);
                 return RedirectToAction(nameof(Index));
             }
             await PopulateSelectedPaises(idiomaViewModel.PaisId);
@@ -78,7 +78,7 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
+            var idiomaViewModel = await _idiomaHttpService.GetByIdAsync(id.Value);
             
             if (idiomaViewModel == null)
             {
@@ -103,7 +103,7 @@ namespace TPAzure.Controllers
             {
                 try
                 {
-                    await _idiomaAppService.EditAsync(idiomaViewModel);
+                    await _idiomaHttpService.EditAsync(idiomaViewModel);
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -130,13 +130,13 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id.Value);
+            var idiomaViewModel = await _idiomaHttpService.GetByIdAsync(id.Value);
 
             if (idiomaViewModel == null)
             {
                 return NotFound();
             }
-            var pais = await _paisAppService.GetByIdAsync(idiomaViewModel.PaisId);
+            var pais = await _paisHttpService.GetByIdAsync(idiomaViewModel.PaisId);
             if (pais.Id == idiomaViewModel.PaisId)
             {
                 idiomaViewModel.Pais = pais;
@@ -150,20 +150,20 @@ namespace TPAzure.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var idiomaViewModel = await _idiomaAppService.GetByIdAsync(id);
-            await _idiomaAppService.RemoveAsync(idiomaViewModel);
+            var idiomaViewModel = await _idiomaHttpService.GetByIdAsync(id);
+            await _idiomaHttpService.RemoveAsync(idiomaViewModel);
 
             return RedirectToAction(nameof(Index));
         }
 
         private bool IdiomaViewModelExists(int id)
         {
-            return _idiomaAppService.GetByIdAsync(id) != null;
+            return _idiomaHttpService.GetByIdAsync(id) != null;
         }
 
         private async Task PopulateSelectedPaises(int? paisId = null)
         {
-            var paises = await _paisAppService.GetAllAsync(null);
+            var paises = await _paisHttpService.GetAllAsync(null);
             ViewBag.Paises = new SelectList(paises, nameof(PaisViewModel.Id),
                 nameof(PaisViewModel.Nome),
                 paisId); 

@@ -41,7 +41,7 @@ namespace Infrastructure.Data.Repositories
                 return _paisIdiomaContext.Paises;
             }
 
-            return _paisIdiomaContext.Paises.Where(x => x.Nome.Contains(search));
+            return _paisIdiomaContext.Paises.Where(x => x.Nome.Contains(search)).OrderBy(o=>o.DataIndependencia);
         }
 
         public async Task<PaisEntity> GetByIdAsync(int id)

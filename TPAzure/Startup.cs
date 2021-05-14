@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using Infrastructure.Data.Context;
-using Infrastructure.Crosscutting.IoC;
+using System;
+using TPAzure.HttpServices;
+using TPAzure.HttpServices.Implementations;
 
 namespace TPAzure
 {
@@ -31,6 +26,9 @@ namespace TPAzure
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddHttpClient<IPaisHttpService, PaisHttpService>(x => x.BaseAddress = new Uri("https://localhost:44360/api/Pais"));
+            services.AddHttpClient<IIdiomaHttpService, IdiomaHttpService>(x => x.BaseAddress = new Uri("https://localhost:44360/api/Idioma"));
 
         }
 

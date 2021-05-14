@@ -5,26 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Application.ViewModels;
-using Application.AppServices;
 using Microsoft.AspNetCore.Authorization;
+using TPAzure.HttpServices;
+using TPAzure.ViewModels;
 
 namespace TPAzure.Controllers
 {
     public class PaisController : Controller
     {
-        private readonly IPaisAppService _paisAppService;
+        private readonly IPaisHttpService _paisHttpService;
 
-        public PaisController(IPaisAppService paisAppService)
+        public PaisController(IPaisHttpService paisHttpService)
         {
-            _paisAppService = paisAppService;
+            _paisHttpService = paisHttpService;
         }
 
         // GET: Pais
         public async Task<IActionResult> Index(string keySearch = null)
         {
             ViewBag.keySearch = keySearch;
-            return View(await _paisAppService.GetAllAsync(keySearch));
+            return View(await _paisHttpService.GetAllAsync(keySearch));
         }
 
         // GET: Pais/Details/5
@@ -35,7 +35,7 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var paisViewModel = await _paisAppService.GetByIdAsync(id.Value);
+            var paisViewModel = await _paisHttpService.GetByIdAsync(id.Value);
               
             if (paisViewModel == null)
             {
@@ -58,7 +58,7 @@ namespace TPAzure.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _paisAppService.AddAsync(paisViewModel);
+                await _paisHttpService.AddAsync(paisViewModel);
                 return RedirectToAction(nameof(Index));
             }
             return View(paisViewModel);
@@ -72,7 +72,7 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var paisViewModel = await _paisAppService.GetByIdAsync(id.Value);
+            var paisViewModel = await _paisHttpService.GetByIdAsync(id.Value);
             if (paisViewModel == null)
             {
                 return NotFound();
@@ -94,7 +94,7 @@ namespace TPAzure.Controllers
             {
                 try
                 {
-                    await _paisAppService.EditAsync(paisViewModel);
+                    await _paisHttpService.EditAsync(paisViewModel);
                    
                 }
                 catch (DbUpdateConcurrencyException)
@@ -121,7 +121,7 @@ namespace TPAzure.Controllers
                 return NotFound();
             }
 
-            var paisViewModel = await _paisAppService.GetByIdAsync(id.Value);
+            var paisViewModel = await _paisHttpService.GetByIdAsync(id.Value);
                 
             if (paisViewModel == null)
             {
@@ -136,15 +136,15 @@ namespace TPAzure.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var paisViewModel = await _paisAppService.GetByIdAsync(id);
-            await _paisAppService.RemoveAsync(paisViewModel);
+            var paisViewModel = await _paisHttpService.GetByIdAsync(id);
+            await _paisHttpService.RemoveAsync(paisViewModel);
            
             return RedirectToAction(nameof(Index));
         }
 
         private bool PaisViewModelExists(int id)
         {
-            return _paisAppService.GetByIdAsync(id) != null;
+            return _paisHttpService.GetByIdAsync(id) != null;
         }
     }
 }

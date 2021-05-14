@@ -21,14 +21,14 @@ namespace WebApi.Controllers
             _paisService = paisService;
             _mapper = mapper;
         }
-        [HttpGet]
+        [HttpGet("{search?}")]
         public async Task<ActionResult<IEnumerable<PaisViewModel>>> Get(string? search) 
         {
             var paisEntities = await _paisService.GetAllAsync(search);
             return Ok(_mapper.Map<IEnumerable<PaisViewModel>> (paisEntities));
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<PaisViewModel>> Get(int id)
+        public async Task<ActionResult<PaisViewModel>> Get([FromRoute] int id)
         {
             var paisEntity = await _paisService.GetByIdAsync(id);
             return Ok(_mapper.Map<PaisViewModel>(paisEntity));
@@ -40,7 +40,7 @@ namespace WebApi.Controllers
             var id = await _paisService.AddAsync(paisEntity);
             return Ok(id);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<int>> Put(PaisViewModel paisViewModel)
         {
             var paisNaoEncontrado = await _paisService.GetByIdAsync(paisViewModel.Id) is null;
@@ -55,7 +55,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id) 
         {
             var paisEntity = await _paisService.GetByIdAsync(id);

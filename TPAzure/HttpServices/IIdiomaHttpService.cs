@@ -1,13 +1,13 @@
-﻿using Application.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using TPAzure.ViewModels;
 
-namespace Application.AppServices
+namespace TPAzure.HttpServices
 {
-    public interface IIdiomaAppService
-    {
+    public interface IIdiomaHttpService
+    {           
         Task<IEnumerable<IdiomaViewModel>> GetAllAsync(string search);
         Task<IdiomaViewModel> GetByIdAsync(int id);
         Task<int> AddAsync(IdiomaViewModel idiomaViewModel);
