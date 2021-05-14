@@ -25,8 +25,13 @@ namespace TPAzure.Controllers
         public async Task<IActionResult> Index(string keySearch = null)
         {
             ViewBag.keySearch = keySearch;
-            await PopulateSelectedPaises();
-            return View(await _idiomaHttpService.GetAllAsync(keySearch));
+            //await PopulateSelectedPaises();
+
+            var idiomas = await _idiomaHttpService.GetAllAsync(keySearch);
+            await PopulateIdiomaWithPais(idiomas);
+
+            return View(idiomas);
+            //return View(await _idiomaHttpService.GetAllAsync(keySearch));
         }
     
         public async Task<IActionResult> Details(int? id)
@@ -169,6 +174,17 @@ namespace TPAzure.Controllers
                 paisId); 
         }
 
-
+        private async Task PopulateIdiomaWithPais(IEnumerable<IdiomaViewModel> idiomas)
+        {
+            foreach(var idioma in idiomas)
+            {
+                var pais = await _paisHttpService.GetByIdAsync(idioma.PaisId);
+                if (pais.Id == idioma.PaisId)
+                {
+                    idioma.Pais = pais;
+                }
+            }
+            
+        }
     }
 }
