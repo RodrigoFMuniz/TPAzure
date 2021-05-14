@@ -1,11 +1,9 @@
 ﻿
 using AutoMapper;
 using Domain.Model.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using WebApi.ViewModels;
 
-namespace Infrastructure.Crosscutting.IoC.MappingProfiles
+namespace WebApi.MappingProfiles
 {
     public class MappingProfile : Profile
     {

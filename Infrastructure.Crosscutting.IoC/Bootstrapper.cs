@@ -1,10 +1,8 @@
-﻿using Application.AppServices;
-using Application.AppServices.Implementations;
+﻿
 using AutoMapper;
 using Domain.Model.Interfaces.Repositories;
 using Domain.Model.Interfaces.Services;
 using Domain.Service.Services;
-using Infrastructure.Crosscutting.IoC.MappingProfiles;
 using Infrastructure.Data.Context;
 using Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +17,8 @@ namespace Infrastructure.Crosscutting.IoC
          this IServiceCollection services,
          IConfiguration configuration)
         {
-            services.AddScoped<IPaisAppService, PaisAppService>();
-            services.AddScoped<IIdiomaAppService, IdiomaAppService>();
+            //services.AddScoped<IPaisAppService, PaisAppService>();
+            //services.AddScoped<IIdiomaAppService, IdiomaAppService>();
 
             services.AddScoped<IPaisService, PaisService>();
             services.AddScoped<IIdiomaService, IdiomaService>();
@@ -36,7 +34,7 @@ namespace Infrastructure.Crosscutting.IoC
             //services.AddScoped<IBlobService, BlobService>(provider =>
             //new BlobService(configuration.GetValue<string>("StorageAccount")));
 
-            services.AddAutoMapper(x => x.AddProfile(typeof(MappingProfile)));
+            
         }
     }
 }

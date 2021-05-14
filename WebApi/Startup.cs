@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Infrastructure.Crosscutting.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WebApi.MappingProfiles;
 
 namespace WebApi
 {
@@ -26,6 +29,10 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            Bootstrapper.RegisterTpAzureServices(services, Configuration);
+            //services.RegisterTpAzureServices(Configuration); //Funciona assim tbm
+
+            services.AddAutoMapper(x => x.AddProfile(typeof(MappingProfile)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -27,7 +27,7 @@ namespace TPAzure
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            Bootstrapper.RegisterTpAzureServices(services, Configuration);
+            
 
             services.AddControllersWithViews();
             services.AddRazorPages();
