@@ -55,7 +55,16 @@
                 @Html.DisplayFor(modelItem => item.QtdHabitantes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ImageUri)
+                @if (@item.ImageUri != null || @item.ImageUri == "")
+                {
+                    <img src="~/Assets/Imagens/@item.ImageUri" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+                    @item.Nome
+                }
+                else
+                {
+                    <img src="~/Assets/Imagens/Default.jpg" class="rounded-circle" height="40" width="40" asp-append-version="true" />
+                    @item.Nome
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |

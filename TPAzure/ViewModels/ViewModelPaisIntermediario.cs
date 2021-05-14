@@ -1,14 +1,14 @@
-﻿
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TPAzure.ViewModels
 {
-    public class PaisViewModel
+    public class ViewModelPaisIntermediario
     {
         public int Id { get; set; }
 
@@ -23,10 +23,11 @@ namespace TPAzure.ViewModels
         [Required(ErrorMessage = "O campo Quantidade de Habitantes deve ser preenchido")]
         [DisplayName("Quantidade de Habitantes")]
         public int QtdHabitantes { get; set; }
-
+        [Required]
         [DisplayName("Bandeira")]
-        public string ImageUri { get; set; }
+        public IFormFile ImageUri { get; set; }
 
         public List<IdiomaViewModel> Idiomas { get; set; }
     }
+
 }
