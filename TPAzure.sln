@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Crosscutting
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain.Model", "Domain.Models\Domain.Model.csproj", "{E2AA0010-8810-449A-AADA-6B4A88AE432E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{933F0BE5-C844-4B34-85F5-E589A5416ECF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{E2AA0010-8810-449A-AADA-6B4A88AE432E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2AA0010-8810-449A-AADA-6B4A88AE432E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2AA0010-8810-449A-AADA-6B4A88AE432E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{933F0BE5-C844-4B34-85F5-E589A5416ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{933F0BE5-C844-4B34-85F5-E589A5416ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{933F0BE5-C844-4B34-85F5-E589A5416ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{933F0BE5-C844-4B34-85F5-E589A5416ECF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{162B7B35-DD3F-468B-BED5-3068D18B0DF6} = {8EBDFF9C-06F9-4E8B-8C75-DB32D1DA9F3F}
 		{6C0B9590-35DC-4378-91A8-48E7DD12E34D} = {8EBDFF9C-06F9-4E8B-8C75-DB32D1DA9F3F}
 		{E2AA0010-8810-449A-AADA-6B4A88AE432E} = {1A9EC183-F7C5-4548-AEC0-06B45FD796A2}
+		{933F0BE5-C844-4B34-85F5-E589A5416ECF} = {78D593C7-C729-4E65-B6BF-A460B960CE37}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {84A7C8C4-23D3-473A-887C-A58EC97945F4}
