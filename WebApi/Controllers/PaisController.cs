@@ -69,7 +69,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            await _paisService.EditAsync(paisEntity);
+            await _paisService.RemoveAsync(paisEntity);
 
             return Ok();
         }

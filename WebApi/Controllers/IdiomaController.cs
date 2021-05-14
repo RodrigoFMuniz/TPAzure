@@ -21,31 +21,36 @@ namespace WebApi.Controllers
             _idiomaService = idiomaService;
             _mapper = mapper;
         }
-        [HttpGet]
+        [HttpGet("{search?}")]
         public async Task<ActionResult<IEnumerable<IdiomaViewModel>>> Get(string? search)
         {
             var idiomaEntities = await _idiomaService.GetAllAsync(search);
             return Ok(_mapper.Map<IEnumerable<IdiomaViewModel>>(idiomaEntities));
         }
         [HttpGet("GetById/{id}")]
-        public async Task<ActionResult<IdiomaViewModel>> Get(int id)
+        public async Task<ActionResult<IdiomaViewModel>> Get([FromRoute]int id)
         {
             var idiomaEntity = await _idiomaService.GetByIdAsync(id);
             return Ok(_mapper.Map<IdiomaViewModel>(idiomaEntity));
         }
         [HttpPost]
-        public async Task<ActionResult<int>> Post(IdiomaViewModel idiomaViewModel)
+        public async Task<ActionResult<int>> Post([FromBody] IdiomaViewModel idiomaViewModel)
         {
             var idiomaEntity = _mapper.Map<IdiomaEntity>(idiomaViewModel);
             var id = await _idiomaService.AddAsync(idiomaEntity);
             return Ok(id);
         }
-        [HttpPut]
-        public async Task<ActionResult<int>> Put(IdiomaViewModel idiomaViewModel)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<int>> Put(int id, IdiomaViewModel idiomaViewModel)
         {
-            var paisNaoEncontrado = await _idiomaService.GetByIdAsync(idiomaViewModel.Id) is null;
+            if (id != idiomaViewModel.Id)
+            {
+                return BadRequest();
+            }
 
-            if (paisNaoEncontrado)
+            var idiomaNaoEncontrado = await _idiomaService.GetByIdAsync(idiomaViewModel.Id) is null;
+
+            if (idiomaNaoEncontrado)
             {
                 return NotFound();
             }
@@ -55,7 +60,7 @@ namespace WebApi.Controllers
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var idiomaEntity = await _idiomaService.GetByIdAsync(id);
@@ -65,7 +70,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            await _idiomaService.EditAsync(idiomaEntity);
+            await _idiomaService.RemoveAsync(idiomaEntity);
 
             return Ok();
         }

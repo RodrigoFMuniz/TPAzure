@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TPAzure.ViewModels;
 
@@ -8,29 +10,50 @@ namespace TPAzure.HttpServices.Implementations
 {
     public class IdiomaHttpService : IIdiomaHttpService
     {
-        public Task<int> AddAsync(IdiomaViewModel idiomaViewModel)
+        private readonly HttpClient _httpClient;
+        public IdiomaHttpService(HttpClient httpClient)
         {
-            throw new NotImplementedException();
+            _httpClient = httpClient;
+        }
+        public async Task<int> AddAsync(IdiomaViewModel idiomaViewModel)
+        {
+            var response = await _httpClient.PostAsJsonAsync(string.Empty, idiomaViewModel);
+
+            response.EnsureSuccessStatusCode();
+
+            var idiomaJsonDeserialized = await response.Content.ReadAsStringAsync();
+
+            var id = int.Parse(idiomaJsonDeserialized);
+
+            return id;
         }
 
-        public Task EditAsync(IdiomaViewModel idiomaViewModel)
+        public async Task EditAsync(IdiomaViewModel idiomaViewModel)
         {
-            throw new NotImplementedException();
+            var idiomaJsonDeserialized = await _httpClient.PutAsJsonAsync($"Idioma/{idiomaViewModel.Id}", idiomaViewModel);
+
+            idiomaJsonDeserialized.EnsureSuccessStatusCode();
         }
 
-        public Task<IEnumerable<IdiomaViewModel>> GetAllAsync(string search)
+        public async Task<IEnumerable<IdiomaViewModel>> GetAllAsync(string search)
         {
-            throw new NotImplementedException();
+
+            var idioma = await _httpClient.GetFromJsonAsync<IEnumerable<IdiomaViewModel>>($"Idioma/{search}");
+
+            return idioma;
         }
 
-        public Task<IdiomaViewModel> GetByIdAsync(int id)
+        public async Task<IdiomaViewModel> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var idioma = await _httpClient.GetFromJsonAsync<IdiomaViewModel>($"Idioma/GetById/{id}");
+
+            return idioma;        
         }
 
-        public Task RemoveAsync(IdiomaViewModel idiomaViewModel)
+        public async Task RemoveAsync(IdiomaViewModel idiomaViewModel)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.DeleteAsync($"Idioma/{idiomaViewModel.Id}");
+            response.EnsureSuccessStatusCode();
         }
     }
 }

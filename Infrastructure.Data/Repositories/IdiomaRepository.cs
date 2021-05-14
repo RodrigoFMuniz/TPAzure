@@ -29,7 +29,12 @@ namespace Infrastructure.Data.Repositories
 
         public async Task EditAsync(IdiomaEntity idiomaEntity)
         {
-            _paisIdiomaContext.Idiomas.Update(idiomaEntity);
+            var idiomaToUpdate = await GetByIdAsync(idiomaEntity.Id);
+            _paisIdiomaContext
+                 .Entry(idiomaToUpdate)
+                    .CurrentValues
+                    .SetValues(idiomaEntity);
+           
             await _paisIdiomaContext.SaveChangesAsync();
         }
 
